@@ -44,15 +44,15 @@ def index():
 @app.route("/select", methods=["POST"])
 def select_instrument():
     """Send 'select 0 1 bank voice' command via Telnet."""
-    bank = request.form["bank"]
-    voice = request.form["voice"]
+    bank = request.form.get("bank")
+    voice = request.form.get("voice")
 
     try:
         response = subprocess.run(f"{{ echo \"select 0 1 {bank} {voice}\"; sleep 1; }} | telnet localhost 9800;", shell=True, capture_output=True)
     except Exception as e:
         return f"Error: {e}"
 
-    return redirect(url_for("index"))
+    #return redirect(url_for("index"))
 
 #return "Instrument Selected", 200
 
