@@ -8,13 +8,30 @@
 <body>
     <h1>Select an Instrument</h1>
     {% for instr in instruments %}
-        <form action="/select" method="post" style="display:inline;">
+        <form id="myForm" onsubmit="submitForm(event)" style="display:inline;">
             <input type="hidden" name="bank" value="{{ instr.bank }}">
             <input type="hidden" name="voice" value="{{ instr.voice }}">
             <button type="submit">{{ instr.name }} ({{ instr.bank }}-{{ instr.voice }})</button>
         </form>
         <br>
     {% endfor %}
+    <script>
+        function submitForm(event) {
+            event.preventDefault(); // Prevent page reload
+            
+            let formData = new FormData(document.getElementById("myForm"));
+
+            fetch("/select", {
+                method: "POST",u
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+               // document.getElementById("message").innerText = data.message;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
 </body>
 </html>
 
