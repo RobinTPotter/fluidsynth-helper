@@ -10,8 +10,7 @@ PID_FILE="flask.pid"
 
 start() {
     if [ -f "$PID_FILE" ]; then
-        echo "Flask is already running (PID: $(cat $PID_FILE))"
-        exit 1
+        ps aux | grep $(cat $PID_FILE) | grep flask | grep -v grep && echo "Flask is already running (PID: $(cat $PID_FILE))" && exit 1
     fi
 
     echo "Starting Flask..."
