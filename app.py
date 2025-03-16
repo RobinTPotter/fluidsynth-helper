@@ -41,6 +41,12 @@ def index():
     instruments = get_instruments()
     return render_template("index.html", instruments=instruments)
 
+@app.route("/stops")
+def stops():
+    """Render the instrument selection page."""
+    instruments = [{ "bank": 1, "voice": 2, "name": "pooo"}]
+    return render_template("stops.html", instruments=instruments)
+
 @app.route("/select", methods=["POST"])
 def select_instrument():
     """Send 'select 0 1 bank voice' command via Telnet."""
