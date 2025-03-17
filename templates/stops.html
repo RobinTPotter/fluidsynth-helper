@@ -30,7 +30,7 @@
 
     <script>
         const svg = document.getElementById("hexGrid");
-
+        let last_this =null;
         const hexSize = 80; // Radius of the hexagon
         const hexWidth = Math.sqrt(3) * hexSize;
         const hexHeight = 2 * hexSize;
@@ -39,7 +39,7 @@
         const cols = Math.ceil(window.innerWidth / hexWidth);
         const rows = Math.ceil(window.innerHeight / vertSpacing);
 
-        function createHexagon(x, y, label) {
+        function createHexagon(x, y, bank, voice, name) {
             const points = [
                 [x + hexWidth / 2, y],
                 [x + hexWidth, y + hexSize / 2],
@@ -52,14 +52,18 @@
             const hex = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
             hex.setAttribute("points", points);
             hex.setAttribute("stroke", "#fff");
-            hex.setAttribute("fill", "none");
+            hex.setAttribute("fill", "black");
 
             
 
             // Add click event listener
             hex.addEventListener("click", function () {
-window.location.href = "/select"
-                this.setAttribute("fill", this.getAttribute("fill") === "none" ? getRandomColor() : "none");
+if (last_this) last_this.setAttribute("fill","black");
+                this.setAttribute("fill", "blue");
+ref = `/select?bank=${bank}&voics=${voice}`
+
+fetch(ref);
+ last_this = this;
             });
 
 
@@ -69,14 +73,14 @@ window.location.href = "/select"
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
             text.setAttribute("x", x + hexWidth / 2);
             text.setAttribute("y", y + hexHeight / 2);
-            text.textContent = label;
-
-
+            text.textContent = name;
 
 
 
             svg.appendChild(hex);
+
             svg.appendChild(text);
+
         }
 
         function getRandomColor() {
@@ -89,7 +93,7 @@ window.location.href = "/select"
         {% for instr in instruments %}
             x = col * hexWidth + (row % 2 === 1 ? hexWidth / 2 : 0);
             y = row * vertSpacing;
-            createHexagon(x, y, "{{ instr.name }} ({{ instr.bank }}-{{ instr.voice }}");
+            createHexagon(x, y, "{{ instr.bank }}","{{ instr.voice }}","{{ instr.name }}");
 
 
 if (col<cols) {

@@ -44,14 +44,28 @@ def index():
 @app.route("/stops")
 def stops():
     """Render the instrument selection page."""
-    instruments = [{ "bank": 1, "voice": 2, "name": "pooo"}]
+    #instruments = [
+    #{ "bank": 1, "voice": 2, "name": "pooo"},
+    #{ "bank": 1, "voice": 6, "name": "pp"}
+    #]
+    instruments = get_instruments()
     return render_template("stops.html", instruments=instruments)
 
-@app.route("/select", methods=["POST"])
+@app.route("/select", methods=["POST","GET"])
 def select_instrument():
     """Send 'select 0 1 bank voice' command via Telnet."""
-    bank = request.form["bank"]
-    voice = request.form["voice"]
+
+    if request.form:
+        bank = request.form["bank"]
+        voice = request.form["voice"]
+    else:
+        bank = request.args.get("bank")
+        voice = request.args.get("voice")
+
+    print((request, bank, voice))
+
+
+    print((request, bank, voice))
 
     try:
         response = subprocess.run(f"{{ echo \"select 0 1 {bank} {voice}\"; sleep 1; }} | telnet localhost 9800;", shell=True, capture_output=True)
