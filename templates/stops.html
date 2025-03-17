@@ -17,7 +17,7 @@
         }
         text {
             font-family: Arial, sans-serif;
-            font-size: 16px;
+            font-size: 12px;
             fill: white;
             text-anchor: middle;
             dominant-baseline: middle;
@@ -27,17 +27,16 @@
 </head>
 <body>
     <svg id="hexGrid"></svg>
-
     <script>
         const svg = document.getElementById("hexGrid");
         let last_this =null;
-        const hexSize = 80; // Radius of the hexagon
+        const hexSize = 45; // Radius of the hexagon
         const hexWidth = Math.sqrt(3) * hexSize;
         const hexHeight = 2 * hexSize;
         const vertSpacing = hexHeight * 0.75;
 
-        const cols = Math.ceil(window.innerWidth / hexWidth);
-        const rows = Math.ceil(window.innerHeight / vertSpacing);
+        const cols = Math.ceil(window.innerWidth / hexWidth) - 1;
+        const rows = Math.ceil(window.innerHeight / vertSpacing) -1;
 
         function createHexagon(x, y, bank, voice, name) {
             const points = [
@@ -54,20 +53,14 @@
             hex.setAttribute("stroke", "#fff");
             hex.setAttribute("fill", "black");
 
-            
-
             // Add click event listener
             hex.addEventListener("click", function () {
-if (last_this) last_this.setAttribute("fill","black");
+                if (last_this) last_this.setAttribute("fill","black");
                 this.setAttribute("fill", "blue");
-ref = `/select?bank=${bank}&voics=${voice}`
-
-fetch(ref);
- last_this = this;
+                ref = `/select?bank=${bank}&voics=${voice}`
+                fetch(ref);
+                last_this = this;
             });
-
-
-
 
             // Create text element centered inside the hexagon
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
@@ -75,34 +68,23 @@ fetch(ref);
             text.setAttribute("y", y + hexHeight / 2);
             text.textContent = name;
 
-
-
             svg.appendChild(hex);
-
             svg.appendChild(text);
-
         }
 
-        function getRandomColor() {
-            return `hsl(${Math.random() * 360}, 100%, 50%)`; // Random bright color
-        }
-
-        let row = 0;
+        let row = 1;
         let col = 0;
 
         {% for instr in instruments %}
             x = col * hexWidth + (row % 2 === 1 ? hexWidth / 2 : 0);
             y = row * vertSpacing;
             createHexagon(x, y, "{{ instr.bank }}","{{ instr.voice }}","{{ instr.name }}");
-
-
-if (col<cols) {
-col = col + 1;
-} else {
-col = 0;
-row = row + 1
-}
-
+            if (col<(cols-(row%2))) {
+                col = col + 1;
+            } else {
+                col = 0;
+                row = row + 1
+            }
         {% endfor %}
     </script>
 </body>
