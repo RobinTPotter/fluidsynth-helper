@@ -28,3 +28,15 @@ The resulting displayed buttons are then pressed to change the voice in fluidsyn
 ```
 FLASK_APP=app.py flask run --host=0.0.0.0
 ```
+
+or for convenience:
+
+```
+./flask.sh start|stop|restart
+```
+
+Install midish to use the script to compress velocity
+
+```
+midish < vel100.mdsh
+```
