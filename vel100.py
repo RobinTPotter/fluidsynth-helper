@@ -8,6 +8,6 @@ outt = [i for i in mido.get_output_names() if "128:0" in i][0]
 outport = mido.open_output(outt)
 
 for msg in inport:
-    if msg.type == 'note_on' or msg.type == 'note_off':
+    if msg.type == 'note_on' and msg.velocity > 0:
         msg.velocity = 10
     outport.send(msg)
