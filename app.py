@@ -44,12 +44,14 @@ def index():
 @app.route("/stops")
 def stops():
     """Render the instrument selection page."""
-    #instruments = [
-    #{ "bank": 1, "voice": 2, "name": "pooo"},
-    #{ "bank": 1, "voice": 6, "name": "pp"}
-    #]
     instruments = get_instruments()
     return render_template("stops.html", instruments=instruments)
+
+@app.route("/fancy")
+def fancy():
+    """Render the instrument selection page."""
+    instruments = get_instruments()
+    return render_template("fancy.html", instruments=instruments)
 
 @app.route("/select", methods=["POST","GET"])
 def select_instrument():

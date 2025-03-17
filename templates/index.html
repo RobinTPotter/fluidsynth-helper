@@ -11,9 +11,8 @@
         <form action="/select" method="post" style="display:inline;">
             <input type="hidden" name="bank" value="{{ instr.bank }}">
             <input type="hidden" name="voice" value="{{ instr.voice }}">
-            <button type="submit">{{ instr.name }} ({{ instr.bank }}-{{ instr.voice }})</button>
+            <button type="submit">{{ instr.name }}</button>
         </form>
-        <br>
     {% endfor %}
 </body>
 </html>

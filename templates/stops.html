@@ -57,7 +57,7 @@
             hex.addEventListener("click", function () {
                 if (last_this) last_this.setAttribute("fill","black");
                 this.setAttribute("fill", "blue");
-                ref = `/select?bank=${bank}&voics=${voice}`
+                ref = `/select?bank=${bank}&voice=${voice}`
                 fetch(ref);
                 last_this = this;
             });
