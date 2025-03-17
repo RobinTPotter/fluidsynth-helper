@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 TELNET_HOST = "localhost"
 TELNET_PORT = 9800
+SOUNDFONTS = "/home/pi/soundfonts"
 
 def get_instruments():
     """Fetch instruments list from Fluidsynth via Telnet."""
@@ -14,14 +15,11 @@ def get_instruments():
             response = subprocess.run('{ echo "inst 1"; sleep 1; } | telnet localhost 9800;', shell=True, capture_output=True)
             #print(response)
             lines = response.stdout.decode("utf-8", "ignore").split("\n")
-            print(lines)
             instruments = []
             for line in lines:
                 try:
-                    print(line)
                     parts = line.split(" ", 1)
                     parts = parts[0].split("-") + [parts[1]]
-                    print(parts)
                     if len(parts) > 2 and parts[0].isdigit() and parts[1].isdigit():
                         bank = parts[0]
                         voice = parts[1]
@@ -29,7 +27,6 @@ def get_instruments():
                         instruments.append({"bank": bank, "voice": voice, "name": name})
                 except Exception as e:
                     print(e)
-            print(instruments)
             return instruments
     except Exception as e:
         print(e)
@@ -64,19 +61,17 @@ def select_instrument():
         bank = request.args.get("bank")
         voice = request.args.get("voice")
 
-    print((request, bank, voice))
-
-
-    print((request, bank, voice))
-
     try:
-        response = subprocess.run(f"{{ echo \"select 0 1 {bank} {voice}\"; sleep 1; }} | telnet localhost 9800;", shell=True, capture_output=True)
+        response = subprocess.run(
+            f"{{ echo \"select 0 1 {bank} {voice}\"; sleep 1; }}"
+            " | telnet localhost 9800;",
+            shell=True,
+            capture_output=True
+        )
     except Exception as e:
         return f"Error: {e}"
 
     return redirect(url_for("index"))
-
-#return "Instrument Selected", 200
 
 if __name__ == "__main__":
     app.run(debug=True)
