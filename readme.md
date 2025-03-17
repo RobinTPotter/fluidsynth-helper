@@ -21,6 +21,11 @@ For example:
 bash fluidsynth.sh ../GM\ DLS\ Remastered\ Version\ 2.sf2
 ```
 
+If sleep_time "none" is used the script exits before aconnect makes the connections
+
+If fluidsynth is running alreay in some form running the command will kill any existing
+
+
 The second part is a flask app, which serves a web page showing all the voices in banks in the soundfont (from commands send via telnet).
 
 The resulting displayed buttons are then pressed to change the voice in fluidsynth:
@@ -35,8 +40,12 @@ or for convenience:
 ./flask.sh start|stop|restart
 ```
 
-Install midish to use the script to compress velocity
+Install mido and rtmidi python libraries to use the script to compress velocity
 
 ```
-midish < vel100.mdsh
+python vel100.py
 ```
+
+this reads the queue of events from 24:0, resets the velocity to 100 and writes to 128:0
+
+

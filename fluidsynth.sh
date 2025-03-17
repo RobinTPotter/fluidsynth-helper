@@ -17,11 +17,18 @@ fi
 soundfont="$1"
 sleep_time="${2:-5}"
 interface="${3:-Interface}"
+echo soundfont $soundfont
+echo sleep_time $sleep_time
+echo interface $interface
 
 if pgrep fluidsynth &>/dev/null; then
     pkill fluidsynth
 else
     fluidsynth --server --no-shell --audio-driver=alsa -o audio.period-size=128 -o audio.periods=2 -r 44100 -g 1.0 "$soundfont" &>/dev/null &
+    if [[ "$sleep_time" == "none" ]]; then
+        echo "not connecting"
+        exit
+    fi
     sleep "$sleep_time"
     
     keyboard=$(aconnect -i | grep -i "client" | grep -i "$interface" | head -1 | cut -d ' ' -f 2)0
