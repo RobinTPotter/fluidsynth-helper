@@ -27,6 +27,27 @@ def get_instruments():
         print(e)
         return []
 
+def get_fonts():
+    """Fetch list of files from soundfonts directory."""
+    import os
+    try:
+        fonts = [f for f in os.listdir(config.SOUNDFONT_PATH) if f.lower().endswith(".sf2")]
+        return fonts
+    except Exception as e:
+        return []
+
+def change_font(name):
+    """unload currect soundfont and load new soundfont."""
+    try:
+        response = subprocess.run(
+            f"{{ echo \"unload 1\"; sleep 1; echo \"load {config.SOUNDFONT_PATH}/{name}\"; sleep 1; }}"
+            f" | telnet {config.TELNET_HOST} {config.TELNET_PORT};",
+            shell=True,
+            capture_output=True
+        )
+    except Exception as e:
+        return f"Error: {e}"
+
 def change_voice(bank, voice):
     try:
         response = subprocess.run(

@@ -15,12 +15,12 @@
 
     <script>
         let tlast = null;
-        function pressed(e, bank, voice) {
+        function pressed(e, name) {
             if (tlast) {
                 tlast.style.backgroundColor = "white";
             }
             e.style.backgroundColor = "blue";
-            ref = `/select?bank=${bank}&voice=${voice}`
+            ref = `/font?${font}`
             fetch(ref);
             tlast = e;
         }
@@ -28,7 +28,7 @@
     <div style="margin-top: 60px;">
         {% for instr in instruments %}
         <span style="display:inline-block; padding:5px; background-color: white; border:1;"
-            onclick="pressed(this, '{{ instr.bank }}', '{{ instr.voice }}')">{{ instr.name }}</span>
+            onclick="pressed(this, '{{ font.name }}')">{{ font.name }}</span>
         {% endfor %}
     </div>
 </body>
