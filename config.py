@@ -1,0 +1,2 @@
+TELNET_HOST="localhost"
+TELNET_PORT=9998

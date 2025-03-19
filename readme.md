@@ -31,7 +31,13 @@ The second part is a flask app, which serves a web page showing all the voices i
 The resulting displayed buttons are then pressed to change the voice in fluidsynth:
 
 ```
-FLASK_APP=app.py flask run --host=0.0.0.0
+PYTHONPATH=modules:. FLASK_APP=app.py flask run --host=0.0.0.0
+```
+
+or 
+
+```
+set PYTHONPATH=modules;. && python app\app.py
 ```
 
 or for convenience:

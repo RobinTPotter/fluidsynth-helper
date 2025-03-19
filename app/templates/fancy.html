@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundFont Instruments</title>
+</head>
+<body>
+<script>
+let tlast = null;
+function pressed(e,bank,voice) {
+    if (tlast) {
+        tlast.style.backgroundColor = "white";
+    }
+    e.style.backgroundColor = "blue";
+    ref = `/select?bank=${bank}&voice=${voice}`
+    fetch(ref);
+    tlast = e;
+}
+</script>
+    {% for instr in instruments %}
+            <span style="display:inline-block; padding:5px; background-color: white; border:1;" onclick="pressed(this, '{{ instr.bank }}', '{{ instr.voice }}')">{{ instr.name }}</span>
+    {% endfor %}
+</body>
+</html>
+
