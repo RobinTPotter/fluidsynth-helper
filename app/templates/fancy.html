@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundFont Instruments</title>
+</head>
+
+<body>
+    <div style="position: fixed; top: 0; left:0; width: 100%; background-color: lightgrey; padding: 15px; z-index: 1000;">
+        <a href="/fancy"><button>Voices</button></a>
+        <a href="/fonts"><button>Fonts</button></a>
+        <a href="/connect"><button>Connect</button></a>
+        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ name }}</span>
+    </div>
+    <script>
+        function pressed(e, bank, voice, name) {
+            document.getElementsByName("instr").forEach((e) => e.style.backgroundColor = "white");
+            e.style.backgroundColor = "blue";
+            ref = `/select?bank=${bank}&voice=${voice}&name=${encodeURIComponent(name)}`;
+            fetch(ref);
+        }
+    </script>
+    <div style="margin-top: 60px;">
+{{ selected }}
+        {% if instruments is not none %}
+        {% for instr in instruments %}
+        <span name="instr" style="display:inline-block; padding:5px; background-color: {% if instr.name == selected %} blue {% else %} white {% endif %}; border:1;"
+            onclick="pressed(this, '{{ instr.bank }}', '{{ instr.voice }}', '{{ instr.name }}')">{{ instr.name }}</span>
+        {% endfor %}
+        {% else %}
+        <span>No instruments</span>
+        {% endif %}
+    </div>
+</body>
+
+</html>

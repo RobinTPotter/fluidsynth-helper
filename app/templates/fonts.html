@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundFont Instruments</title>
+</head>
+
+<body>
+    <div style="position: fixed; top: 0; left:0; width: 100%; background-color: lightgrey; padding: 15px; z-index: 1000;">
+        <a href="/fancy"><button>Voices</button></a>
+        <a href="/fonts"><button>Fonts</button></a>
+        <a href="/connect"><button>Connect</button></a>
+        <input type="checkbox" id="none" name="none" checked /><span>no connect</span>
+    </div>
+
+    <script>
+        let tlast = null;
+        function pressed(e, name) {
+            document.getElementsByName("font").forEach((e) => e.style.backgroundColor = "white");
+            e.style.backgroundColor = "blue";
+            none = document.getElementById("none").checked;
+            ref = `/font/${name}/${none}`
+            fetch(ref);
+        }
+    </script>
+    <div style="margin-top: 60px;">
+
+        {% if fonts is not none %}
+        {% for font in fonts %}
+        <span name="font" style="display:inline-block; padding:5px; background-color:{% if font.name == selected %} blue {% else %} white {% endif %}; border:1;"
+            onclick="pressed(this, '{{ font.quote }}')">{{ font.name }}</span>
+        {% endfor %}
+        {% else %}
+        <span>No fonts</span>
+        {% endif %}
+    </div>
+</body>
+
+</html>
