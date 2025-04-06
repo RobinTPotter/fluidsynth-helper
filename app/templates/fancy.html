@@ -23,7 +23,6 @@
         }
     </script>
     <div style="margin-top: 60px;">
-{{ selected }}
         {% if instruments is not none %}
         {% for instr in instruments %}
         <span name="instr" style="display:inline-block; padding:5px; background-color: {% if instr.name == selected %} blue {% else %} white {% endif %}; border:1;"
