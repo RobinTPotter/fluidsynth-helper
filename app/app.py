@@ -46,13 +46,20 @@ def fonts():
 
 @app.route("/connect")
 def connect():
+    presets = [
+        {"vm": 0, "vo": 30 },
+        {"vm": 0.25, "vo": 50 },
+        {"vm": 0.5, "vo": 20 },
+        {"vm": 1.0, "vo": 0 },
+        {"vm": 0.5, "vo": 0 },
+    ]
     return render_template(
         "connect.html"
         , connections_in=fluids.get_connections_in()
         , connections_out=fluids.get_connections_out()
         , velocity_multiplier=app.velocity_multiplier
         , velocity_output=app.velocity_output,
-        )
+        presets=presets,        )
 
 @app.route("/stops")
 def stops():
@@ -105,6 +112,7 @@ def connect_stop():
 def shutdown(really):
     if really=="yes":
         os.system("sudo shutdown now")
+        return ("bye")
 
 @app.route('/connect_up', methods=['POST'])
 def connect_up():

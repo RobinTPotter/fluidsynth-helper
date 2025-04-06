@@ -33,16 +33,29 @@
                 {% endfor %}
             </select>
             <br />
+            <br />
             <label for="velocity_multiplier">Velocity Multiplier (0 to 1.0):</label>
             <input type="range" id="velocity_multiplier" name="velocity_multiplier" min="0" max="1.0" step="0.01"
                 value="{{ velocity_multiplier }}">
             <br />
             <label for="velocity_output">Velocity Output (0 to 127):</label>
             <input type="range" id="velocity_output" name="velocity_output" min="0" max="127" value="{{ velocity_output }}">
+            <br />
             <br>
+            {% for preset in presets %}
+            <input type="button" onclick="chg({{ preset.vo }},{{ preset.vm }})" value="{{ preset.vo }}/{{ preset.vm }}"></input>
+            {% endfor %}
+            <br>
+            <br />
             <button type="submit">Go</button>
         </form>
     </div>
+    <script>
+        function chg(vo,vm) {
+            document.getElementById("velocity_output").value = vo;
+            document.getElementById("velocity_multiplier").value = vm;
+        }
+    </script>
 </body>
 
 </html>
